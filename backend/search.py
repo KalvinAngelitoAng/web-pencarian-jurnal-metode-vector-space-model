@@ -10,7 +10,7 @@ def search(query, top_n=10):
     query_vec = vectorizer.transform([query])
     cosine_sim = cosine_similarity(query_vec, tfidf_matrix).flatten()
     ranked_indices = cosine_sim.argsort()[::-1][:top_n]
-    
+    #kalvin disini :3
     results = []
     for idx in ranked_indices:
         results.append({

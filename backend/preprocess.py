@@ -1,4 +1,5 @@
 import json
+#kalvin disini :3
 
 def load_journal_titles(json_path="journals.json"):
     with open(json_path, "r", encoding="utf-8") as f:

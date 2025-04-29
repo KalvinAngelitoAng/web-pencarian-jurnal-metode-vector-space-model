@@ -5,6 +5,7 @@ import os
 import time
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+#kalvin disini :3
 
 app = Flask(__name__)
 CORS(app)

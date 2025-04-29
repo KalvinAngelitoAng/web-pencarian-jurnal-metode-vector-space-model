@@ -13,7 +13,7 @@ document.getElementById('searchForm').addEventListener('submit', function(e) {
   .then(data => {
       resultsDiv.innerHTML = '';
       timeDiv.innerHTML = `Waktu pencarian: ${data.search_time} detik`;
-
+      //kalvin disini :3
       if (data.results.length === 0) {
           resultsDiv.innerHTML = '<p>Tidak ada hasil ditemukan.</p>';
       } else {
