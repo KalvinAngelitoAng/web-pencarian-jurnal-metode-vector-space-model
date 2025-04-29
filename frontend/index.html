@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jurnal Finder</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        #cornerGif {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 100px;
+            height: 100px;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Mesin Pencarian Jurnal :3</h2>
+    <form id="searchForm">
+        <div class="form-group">
+            <input type="text" class="form-control" id="query" placeholder="Masukkan kata kunci atau query..." required>
+        </div>
+        <button type="submit" class="btn btn-primary">Cari</button>
+    </form>
+
+    <div id="searchTime" class="mt-3 text-muted"></div>
+    <div id="results" class="mt-3"></div>
+</div>
+
+<img src="img/tsukasa-dance.gif" alt="GIF" id="cornerGif">
+
+<script>
+document.getElementById('searchForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const query = document.getElementById('query').value;
+    const resultsDiv = document.getElementById('results');
+    const timeDiv = document.getElementById('searchTime');
+
+    fetch('http://127.0.0.1:5000/search', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({query: query})
+    })
+    .then(response => response.json())
+    .then(data => {
+        resultsDiv.innerHTML = '';
+        timeDiv.innerHTML = `Waktu pencarian: ${data.search_time} detik`;
+
+        if (data.results.length === 0) {
+            resultsDiv.innerHTML = '<p>Tidak ada hasil ditemukan.</p>';
+        } else {
+            data.results.forEach(journal => {
+                const div = document.createElement('div');
+                div.className = 'card mb-3 p-3';
+                div.innerHTML = `
+                    <h5>${journal.title}</h5>
+                    <p><strong>${journal.journal_name}</strong> - <em>${journal.institution}</em></p>
+                    <p>Skor Kemiripan: ${journal.score}</p>
+                    <a href="${journal.url}" target="_blank">Buka Artikel</a>
+                `;
+                resultsDiv.appendChild(div);
+            });
+        }
+    });
+});
+</script>
+</body>
+</html>
