@@ -5,24 +5,22 @@ import time
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+#kalvin disini :3
 
 app = Flask(__name__)
 CORS(app)
 
-# === Fungsi Preprocessing ===
 def preprocess(text):
     text = text.lower()
-    text = re.sub(r'[^a-z0-9\s]', '', text)  # Hanya huruf dan angka
+    text = re.sub(r'[^a-z0-9\s]', '', text)
     return text
 
-# === Load Dataset ===
 DATA_PATH = 'journals.json'
 with open(DATA_PATH, 'r', encoding='utf-8') as f:
     data = json.load(f)
 
 journals = data.get('journals', [])
 
-# === Ambil Artikel ===
 articles = []
 for journal in journals:
     journal_name = journal.get('basic_info', {}).get('name', '')
@@ -42,12 +40,10 @@ for journal in journals:
                 'full_text': preprocess(full_text)
             })
 
-# === TF-IDF Vectorization ===
 corpus = [article['full_text'] for article in articles]
 vectorizer = TfidfVectorizer(stop_words='english')
 tfidf_matrix = vectorizer.fit_transform(corpus)
 
-# === Endpoint Search ===
 @app.route('/search', methods=['POST'])
 def search():
     data = request.get_json()
