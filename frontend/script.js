@@ -29,7 +29,6 @@ document.getElementById('searchForm').addEventListener('submit', function(e) {
                 resultsDiv.appendChild(div);
             });
 
-            // Update chart
             const labels = data.results.map((item, index) => `${index + 1}. ${item.title.slice(0, 30)}...`);
             const scores = data.results.map(item => item.score);
 
