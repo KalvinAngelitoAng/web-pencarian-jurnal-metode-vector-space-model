@@ -1,21 +1,19 @@
-import json
-#kalvin disini :3
+import re
+from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
 
-def load_journal_titles(json_path="journals.json"):
-    with open(json_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
+stopword_factory = StopWordRemoverFactory()
+stemmer_factory = StemmerFactory()
 
-    documents = []
-    journal_data = []
-    for journal in data["journals"]:
-        articles = journal.get("articles", [])
-        for article in articles:
-            title = article.get("title", "")
-            if title:
-                documents.append(title)
-                journal_data.append({
-                    "title": title,
-                    "journal_name": journal.get("basic_info", {}).get("name", ""),
-                    "url": journal.get("basic_info", {}).get("url", ""),
-                })
-    return documents, journal_data
+def preprocess(text):
+    text = text.lower()
+    
+    stopword_remover = stopword_factory.create_stop_word_remover()
+    text_no_stopwords = stopword_remover.remove(text)
+    
+    stemmer = stemmer_factory.create_stemmer()
+    text_stemmed = stemmer.stem(text_no_stopwords)
+    
+    text_cleaned = re.sub(r'[^a-z0-9\s]', '', text_stemmed)
+    
+    return text_cleaned

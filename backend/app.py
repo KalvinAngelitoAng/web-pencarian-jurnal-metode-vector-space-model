@@ -1,11 +1,11 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+import os
 import json
 import time
 import re
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-#kalvin disini :3
 
 app = Flask(__name__)
 CORS(app)
@@ -15,10 +15,18 @@ def preprocess(text):
     text = re.sub(r'[^a-z0-9\s]', '', text)
     return text
 
-DATA_PATH = 'journals.json'
-with open(DATA_PATH, 'r', encoding='utf-8') as f:
-    data = json.load(f)
+def load_data():
+    json_file_path = "all_sinta_journals.json"
+    if not os.path.exists(json_file_path):
+        print(f"File JSON tidak ditemukan: {json_file_path}")
+        return []
 
+    with open(json_file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    
+    return data
+
+data = load_data()
 journals = data.get('journals', [])
 
 articles = []
@@ -49,7 +57,7 @@ def search():
     data = request.get_json()
     query = data.get('query', '')
     if not query:
-        return jsonify({'results': [], 'search_time': 0.0})
+        return jsonify({'results': [], 'search_time': 0.0, 'total_journals': 0})
 
     start_time = time.time()
     
@@ -71,7 +79,14 @@ def search():
             })
 
     search_time = round(time.time() - start_time, 4)
-    return jsonify({'results': results, 'search_time': search_time})
+
+    total_journals = len(journals)
+
+    return jsonify({'results': results, 'search_time': search_time, 'total_journals': total_journals})
+
+@app.route('/total_journals', methods=['GET'])
+def get_total_journals():
+    return jsonify({'total_journals': len(journals)})
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,12 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <!-- kalvin disini :3 -->
     <meta charset="UTF-8">
     <title>Jurnal Finder</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        body {
+            background: linear-gradient(to right, #e0f7fa, #fce4ec);
+            color: #333;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .card {
+            background-color: white;
+            border-left: 5px solid #2196f3;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary {
+            background-color: #ff4081;
+            border-color: #f50057;
+        }
+
+        #accuracyChartContainer {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 360px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            color: #6a1b9a;
+            font-weight: bold;
+        }
+
         #cornerGif {
             position: fixed;
             bottom: 10px;
@@ -15,26 +48,45 @@
             height: 100px;
             z-index: 999;
         }
+
+        #results .card h5 {
+            color: #00796b;
+        }
+
+        #results .card a {
+            color: #0d47a1;
+            font-weight: bold;
+        }
+
+        #searchTime, #totalJournals {
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
 <div class="container mt-5">
-    <h2 class="mb-4">Mesin Pencarian Jurnal :3</h2>
+    <h2 class="mb-4 text-center">🔍 Mesin Pencarian Jurnal Akademik</h2>
     <form id="searchForm">
         <div class="form-group">
             <input type="text" class="form-control" id="query" placeholder="Masukkan kata kunci atau query..." required>
         </div>
-        <button type="submit" class="btn btn-primary">Cari</button>
+        <button type="submit" class="btn btn-primary btn-block">Cari</button>
     </form>
 
-    <div id="searchTime" class="mt-3 text-muted"></div>
+    <div class="mt-3 text-center">
+        <div id="searchTime" class="text-muted"></div>
+        <div id="totalJournals" class="text-muted"></div>
+    </div>
 
     <div class="row mt-4">
         <div class="col-md-8">
             <div id="results"></div>
         </div>
         <div class="col-md-4">
-            <canvas id="accuracyChart" width="400" height="300"></canvas>
+            <div id="accuracyChartContainer">
+                <canvas id="accuracyChart" width="300" height="300"></canvas>
+                <p class="text-muted mt-3">Grafik Kemiripan Query</p>
+            </div>
         </div>
     </div>
 </div>
