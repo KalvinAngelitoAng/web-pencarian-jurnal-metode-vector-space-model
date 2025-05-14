@@ -2,6 +2,7 @@ import os
 import json
 import time
 import re
+import kagglehub
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -9,6 +10,12 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
 CORS(app)
+
+import kagglehub
+
+path = kagglehub.dataset_download("ireddragonicy/sinta-journal")
+
+print(".", path)
 
 def preprocess(text):
     text = text.lower()
