@@ -11,18 +11,15 @@
             color: #333;
             font-family: 'Segoe UI', sans-serif;
         }
-
         .card {
             background-color: white;
             border-left: 5px solid #2196f3;
             box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
         }
-
         .btn-primary {
             background-color: #ff4081;
             border-color: #f50057;
         }
-
         #accuracyChartContainer {
             background-color: #ffffff;
             border-radius: 10px;
@@ -34,12 +31,10 @@
             justify-content: center;
             box-shadow: 0 0 10px rgba(0,0,0,0.05);
         }
-
         h2 {
             color: #6a1b9a;
             font-weight: bold;
         }
-
         #cornerGif {
             position: fixed;
             bottom: 10px;
@@ -48,16 +43,13 @@
             height: 100px;
             z-index: 999;
         }
-
         #results .card h5 {
             color: #00796b;
         }
-
         #results .card a {
             color: #0d47a1;
             font-weight: bold;
         }
-
         #searchTime, #totalJournals {
             font-size: 0.9rem;
         }
@@ -66,18 +58,33 @@
 <body>
 <div class="container mt-5">
     <h2 class="mb-4 text-center">🔍 Mesin Pencarian Jurnal Akademik</h2>
+
+    <!-- Form -->
     <form id="searchForm">
         <div class="form-group">
             <input type="text" class="form-control" id="query" placeholder="Masukkan kata kunci atau query..." required>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Cari</button>
+
+        <!-- Filter -->
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="institution" placeholder="Nama Institusi (opsional)">
+            </div>
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="topic" placeholder="Topik/Subject Area, bisa lebih dari satu (pisahkan dengan koma)">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block mt-3">Cari</button>
     </form>
 
+    <!-- Info -->
     <div class="mt-3 text-center">
         <div id="searchTime" class="text-muted"></div>
         <div id="totalJournals" class="text-muted"></div>
     </div>
 
+    <!-- Hasil -->
     <div class="row mt-4">
         <div class="col-md-8">
             <div id="results"></div>
@@ -85,13 +92,16 @@
         <div class="col-md-4">
             <div id="accuracyChartContainer">
                 <canvas id="accuracyChart" width="300" height="300"></canvas>
-                <p class="text-muted mt-3">Grafik Kemiripan Query</p>
+                <p class="text-muted mt-3">Grafik Kemiripan Judul</p>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Gif -->
 <img src="img/tsukasa-dance.gif" alt="GIF" id="cornerGif">
+
+<!-- JS -->
 <script src="script.js"></script>
 </body>
 </html>

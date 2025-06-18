@@ -1,11 +1,13 @@
 document.getElementById('searchForm').addEventListener('submit', function (e) {
     e.preventDefault();
     const query = document.getElementById('query').value;
+    const institution = document.getElementById('institution').value;
+    const topic = document.getElementById('topic').value;
 
     fetch('http://127.0.0.1:5000/search', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ query })
+        body: JSON.stringify({ query, institution, topic })
     })
     .then(res => res.json())
     .then(data => {
@@ -26,6 +28,7 @@ document.getElementById('searchForm').addEventListener('submit', function (e) {
                     <h5>${result.title}</h5>
                     <p><strong>Jurnal:</strong> ${result.journal_name}</p>
                     <p><strong>Institusi:</strong> ${result.institution}</p>
+                    <p><strong>Topik:</strong> ${result.topic}</p>
                     <p><strong>Skor Kemiripan:</strong> ${result.score}</p>
                     <a href="${result.url}" target="_blank">Kunjungi</a>
                 </div>
